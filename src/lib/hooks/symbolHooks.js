@@ -14,9 +14,10 @@ export const useSymbol = (initialState = []) => {
       getSymbolList()
         .then((list) => {
           localStorage.setItem(SymbolsStorage, JSON.stringify(list));
-          setItems(list);
+            setItems(list);
         })
-        .catch((err) => {});
+        .catch((err) => {
+        })
     } else {
       setItems(JSON.parse(resultItems));
     }
