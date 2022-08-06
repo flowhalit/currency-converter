@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";

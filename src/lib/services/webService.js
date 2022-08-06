@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const myHeaders = new Headers();
 const BASEURL = process.env.REACT_APP_API_BASE_URL;
 myHeaders.append("apikey", process.env.REACT_APP_API_KEY);
@@ -8,8 +9,6 @@ const requestOptions ={
 };
 export const webService = (url)=>{
     return new Promise((resolve,reject)=>{
-      
-   
         fetch(BASEURL + url, requestOptions)
           .then(response => response.text())
           .then(result => resolve(result))

@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-debugger */
 import { selectSearch, selectSearchText, selectSymbols, setSearchFrom, setSearchTo, setStatus,setSwaps,setAmount, selectResult, selectStatus } from "../currency";
 
 export const setStatusAction = (payload) => (dispatch,getState) => {
@@ -37,7 +36,6 @@ export const setSwapAction = (payload) => (dispatch,getState) => {
 };
 export const setAmountAction = (payload) => (dispatch,getState) => {
   const result= selectResult(getState());
-  debugger
   dispatch(setAmount({
     amount:payload,
     result

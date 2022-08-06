@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SymbolsStorage } from '../../constants';
 import { CURRENCY_API_SYMBOLS_GETLIST } from '../../constants/redux';
