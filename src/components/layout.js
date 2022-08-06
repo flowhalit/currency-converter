@@ -12,7 +12,8 @@ import TopComponent from "./top";
 import BottomComponent from "./bottom";
 import { getConvertToMoneyActionAsync, selectFromSymbols, selectResult, selectSearch, selectSearchText, selectToSymbols } from "../lib/store/currency";
 import { useDispatch, useSelector } from "react-redux";
-import { setAmountAction, setSearchFromAction, setSearchToAction,setSwapAction } from "../lib/store/actions/currencyActions";
+import { setAmountAction, setSearchFromAction, setSearchToAction,setStatusAction,setSwapAction } from "../lib/store/actions/currencyActions";
+import CustomSnackBarComponent from "./customSnackBarComponent";
 
 const Layout = () => {
   const dispatch=useDispatch();
@@ -25,7 +26,10 @@ const Layout = () => {
 
   const onSwapChange = () => {
     if(search.from ==="" || search.from===null || search.to==="" ||search.to===null){
-      return
+        dispatch(setStatusAction({
+          message:"Please select money type",
+          isShow:true
+        }))
     }else{
       dispatch(setSwapAction(null))
       dispatch(getConvertToMoneyActionAsync())
@@ -120,7 +124,7 @@ const Layout = () => {
         </Grid>
         <BottomComponent></BottomComponent>
         <HistoryComponent></HistoryComponent>
-        
+        <CustomSnackBarComponent />
       </Grid>
     </Container>
   );

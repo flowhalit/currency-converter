@@ -12,7 +12,9 @@ import { getHistoryList, historyListAdd } from '../../storage';
 export * from '../selectors'
 const initialState = {
     status:{
-      loading:true
+      loading:true,
+      message:"",
+      isShow:false
     },
     result:{
       convert:{
