@@ -28,10 +28,12 @@ export const setSwapAction = (payload) => (dispatch,getState) => {
   const symbols= selectSymbols(getState());
   const search= selectSearch(getState());
   const text= selectSearchText(getState());
+  const result= selectResult(getState());
   dispatch(setSwaps({
     text,
     symbols,
     search,
+    result
   }));
 };
 export const setAmountAction = (payload) => (dispatch,getState) => {

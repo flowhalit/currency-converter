@@ -15,3 +15,11 @@ export const webService = (url)=>{
           .catch(error => reject(error));
     })
 }
+export const webServiceWithParam = (url,params)=>{
+    return new Promise((resolve,reject)=>{
+        fetch(BASEURL + url+"?"+(new URLSearchParams(params).toString()), requestOptions)
+          .then(response => response.text())
+          .then(result => resolve(result))
+          .catch(error => reject(error));
+    })
+}

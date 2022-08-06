@@ -10,4 +10,4 @@ export const selectSymbols = (state) => state.currency.symbols
 export const selectFromSymbols = (state) => state.currency.fromSymbols
 export const selectToSymbols = (state) => state.currency.toSymbols
 export const selectStatus = (state) => state.currency.status
-export const selectOpen = (state) => state.currency.status.open
+export const selectHistories = (state) => state.currency.result.histories

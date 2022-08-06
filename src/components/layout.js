@@ -10,7 +10,7 @@ import CurrencyComponent from "./currency/currencyComponent";
 import FormattedInputs from "./currency/numbericComponent";
 import TopComponent from "./top";
 import BottomComponent from "./bottom";
-import { selectFromSymbols, selectResult, selectSearch, selectSearchText, selectToSymbols } from "../lib/store/currency";
+import { getConvertToMoneyActionAsync, selectFromSymbols, selectResult, selectSearch, selectSearchText, selectToSymbols } from "../lib/store/currency";
 import { useDispatch, useSelector } from "react-redux";
 import { setAmountAction, setSearchFromAction, setSearchToAction,setSwapAction } from "../lib/store/actions/currencyActions";
 
@@ -24,7 +24,12 @@ const Layout = () => {
   const result = useSelector(selectResult)
 
   const onSwapChange = () => {
-    dispatch(setSwapAction(null))
+    if(search.from ==="" || search.from===null || search.to==="" ||search.to===null){
+      return
+    }else{
+      dispatch(setSwapAction(null))
+      dispatch(getConvertToMoneyActionAsync())
+    }
   };
   return (
     <Container>
@@ -84,7 +89,7 @@ const Layout = () => {
               value={search.amount}
               onChange={(value) => {
                 if(value){
-                  dispatch(setAmountAction(parseInt(value)))
+                  dispatch(setAmountAction(parseFloat(value)))
                 }
                 else{
                   dispatch(setAmountAction(0))
@@ -115,6 +120,7 @@ const Layout = () => {
         </Grid>
         <BottomComponent></BottomComponent>
         <HistoryComponent></HistoryComponent>
+        
       </Grid>
     </Container>
   );

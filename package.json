@@ -12,6 +12,7 @@
     "@mui/x-data-grid": "^5.15.1",
     "@reduxjs/toolkit": "^1.8.3",
     "eslint-plugin-react-hooks": "^4.7.0-next-ca990e9a7-20220804",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import NumberFormat from "react-number-format";
 import Box from "@mui/material/Box";
@@ -37,21 +37,24 @@ NumberFormatCustom.propTypes = {
 };
 
 export default function FormattedInputs({ value,disabled, label,onChange }) {
-  const [values, setValues] = React.useState({
-    value: value,
-  });
-  useEffect(()=>{
-    setValues({
-      value: value,
-    })
-  },[label,value])
+  // const [values, setValues] = React.useState({
+  //   value: value,
+  // });
+  // useEffect(()=>{
+  //   setValues({
+  //     value: value,
+  //   })
+  // },[label,value])
+  // useEffect(()=>{
+  //   onChange(values.value);
+  // },[values])
 
   const handleChange = (event) => {
-    setValues({
-      ...values,
-      value: event.target.value,
-    });
-    onChange(event.target.value)
+    // setValues({
+    //   ...values,
+    //   value: event.target.value,
+    // });
+    onChange(event.target.value);
   };
   return (
     <Box
@@ -63,7 +66,7 @@ export default function FormattedInputs({ value,disabled, label,onChange }) {
     >
       <TextField
         label={label}
-        value={values.value}
+        value={value}
         onChange={handleChange}
         name="numberformat"
         disabled={disabled}

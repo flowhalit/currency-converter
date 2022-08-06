@@ -4,8 +4,9 @@ import PaymentsSharpIcon from "@mui/icons-material/PaymentsSharp";
 import styled from '@emotion/styled';
 import { Backdrop, Button, CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOpen } from '../lib/store/currency';
-import { setStatusAction } from '../lib/store/actions/currencyActions';
+// import { setStatusAction } from '../lib/store/actions/currencyActions';
+import { selectStatus } from '../lib/store/selectors';
+import { getConvertToMoneyActionAsync } from '../lib/store/currency';
 
 const PaymentButton = styled(Button)(() => {});
 
@@ -14,12 +15,13 @@ const PaymentButton = styled(Button)(() => {});
 const BottomComponent = ()=>{
     const matches = useMediaQuery('(max-width:900px)');
     const dispatch = useDispatch();
-    const open = useSelector(selectOpen);
+    const status = useSelector(selectStatus);
     const handleToggle = () => {
-      dispatch(setStatusAction({open:!open}))
+      dispatch(getConvertToMoneyActionAsync());
+      // dispatch(setStatusAction({loading:!status.loading}))
     };
     const handleClose = () => {
-      dispatch(setStatusAction({open:false}))
+      // dispatch(setStatusAction({loading:true}))
     };
     return(
         <Grid container={!matches} item={matches} xs={12} direction={{ xs: "column", md: "row" }} m={5} justifyContent={"center"}>
@@ -35,7 +37,7 @@ const BottomComponent = ()=>{
               color: "#fff",
               zIndex: (theme) => theme.zIndex.drawer + 1,
             }}
-            open={open}
+            open={!status.loading}
             onClick={handleClose}
           >
             <CircularProgress color="inherit" />
