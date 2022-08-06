@@ -10,9 +10,13 @@
     "@mui/styled-engine": "^5.8.7",
     "@mui/styled-engine-sc": "^5.9.3",
     "@mui/x-data-grid": "^5.15.1",
+    "@reduxjs/toolkit": "^1.8.3",
+    "eslint-plugin-react-hooks": "^4.7.0-next-ca990e9a7-20220804",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-number-format": "^4.9.3",
+    "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5"
   },
@@ -39,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "eslint-plugin-react": "^7.30.1"
   }
 }

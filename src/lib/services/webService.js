@@ -6,9 +6,10 @@ const requestOptions ={
   redirect: 'follow',
   headers: myHeaders
 };
-export const fetchService = (url)=>{
+export const webService = (url)=>{
     return new Promise((resolve,reject)=>{
-      debugger
+      
+   
         fetch(BASEURL + url, requestOptions)
           .then(response => response.text())
           .then(result => resolve(result))

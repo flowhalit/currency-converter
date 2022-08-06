@@ -1,19 +1,19 @@
-import {  symbolUrl } from "../constants";
-import { fetchService } from "./webService";
+import { symbolUrl } from "../constants";
+import { webService } from "./webService";
 
 export const getSymbolList = () => {
   return new Promise((resolve, reject) => {
-    fetchService(symbolUrl)
+    webService(symbolUrl)
       .then((result) => {
         const { success, symbols } = JSON.parse(result);
         if (success === true) {
           resolve(symbols);
         } else {
-          reject()
+          reject();
         }
       })
       .catch((err) => {
-        resolve(err)
+        resolve(err);
       });
   });
 };

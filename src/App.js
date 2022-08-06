@@ -1,42 +1,24 @@
-import React, { Children } from "react";
-import Paper from "@mui/material/Paper";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
+
+
 import {
   CssBaseline,
   ThemeProvider,
   createTheme,
-  Autocomplete,
-  TextField,
-  Grid,
-  ListItem,
-  styled,
-  Button,
-  Stack,
-  Backdrop,
-  CircularProgress,
+  Stack
 } from "@mui/material";
-import { useSymbol } from "./lib/hooks/symbolHooks";
+import { useDispatch } from "react-redux";
+import { getListSymbolListAsync } from "./lib/store/currency";
+import Layout from "./components/layout";
 
-import Layout from "./components/layout/layout";
-
-const theme = createTheme({
-  // palette: {
-  //   primary: {
-  //     light: '#63b8ff',
-  //     main: '#0989e3',
-  //     dark: '#005db0',
-  //     contrastText: '#000',
-  //   },
-  //   secondary: {
-  //     main: '#4db6ac',
-  //     light: '#82e9de',
-  //     dark: '#00867d',
-  //     contrastText: '#000',
-  //   },
-  // },
-});
+const theme = createTheme();
 
 function App() {
+ const dispatch=useDispatch();
+  useEffect(()=>{
+    dispatch(getListSymbolListAsync());
+  },[])
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -57,7 +39,7 @@ function App() {
           mt={10}
           mb={10}
         >
-          <Layout></Layout>
+          <Layout />
         </Stack>
       </>
     </ThemeProvider>

@@ -7,21 +7,23 @@ export const useSymbol = (initialState = []) => {
   const [items, setItems] = useState(initialState);
 
   const setSymbol = useCallback((_items) => setItems(_items), []);
-
   useEffect(() => {
+    debugger
     const resultItems = localStorage.getItem(SymbolsStorage);
+    debugger;
     if (resultItems === null) {
+      debugger;
       getSymbolList()
         .then((list) => {
           localStorage.setItem(SymbolsStorage, JSON.stringify(list));
-            setItems(list);
+          setItems(list);
         })
-        .catch((err) => {
-        })
+        .catch((err) => {});
     } else {
+      debugger;
       setItems(JSON.parse(resultItems));
     }
   }, []);
-
-  return [items, setSymbol];
+  debugger;
+    return [items, setSymbol];
 };

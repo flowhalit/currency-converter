@@ -1,0 +1,236 @@
+/* eslint-disable no-debugger */
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { SymbolsStorage } from '../../constants';
+import { CURRENCY_API_SYMBOLS_GETLIST } from '../../constants/redux';
+import { getSymbolList} from '../../services/symbolsService'
+import { getToAutoComplete } from '../../utility';
+export * from '../selectors'
+const initialState = {
+    status:{
+      loading:true,
+      open:false
+    },
+    result:{
+      convert:{
+        info:{
+          rate:0
+        }
+      },
+      totalAmount:0
+    },
+    symbols:{},
+    fromSymbols:[],
+    toSymbols:[],
+    text:{
+      from:"",
+      to:""
+    },
+    search:{
+      from:null,
+      to:null,
+      amount:0,
+      date:Date.now(),/** sabit değişmicek bugun */
+      /**
+       * CONVERT
+       {
+          "date": "2018-02-22",
+          "historical": "",
+          "info": {
+            "rate": 148.972231,
+            "timestamp": 1519328414
+          },
+          "query": {
+            "amount": 25,
+            "from": "GBP",
+            "to": "JPY"
+          },
+          "result": 3724.305775,
+          "success": true
+        }
+       */
+    },
+    fluctuation:{
+      start_date:null,
+      end_date:null,
+      base:null,
+      //symbols AUD,USD..
+      symbols:""
+
+      /**
+       * result
+       *  
+       "JPY": {
+          "change": 0.0635,
+          "change_pct": 0.0483,
+          "end_rate": 131.651142,
+          "start_rate": 131.587611
+        },
+        "USD": {
+          "change": 0.0038,
+          "change_pct": 0.3078,
+          "end_rate": 1.232735,
+          "start_rate": 1.228952
+        }
+       */
+      /**
+       * Histories
+       {
+          "base": "EUR",
+          "end_date": "2012-05-03",
+          "rates": {
+            "2012-05-01": {
+              "AUD": 1.278047,
+              "CAD": 1.302303,
+              "USD": 1.322891
+            },
+            "2012-05-02": {
+              "AUD": 1.274202,
+              "CAD": 1.299083,
+              "USD": 1.315066
+            },
+            "2012-05-03": {
+              "AUD": 1.280135,
+              "CAD": 1.296868,
+              "USD": 1.314491
+            }
+          },
+          "start_date": "2012-05-01",
+          "success": true,
+          "timeseries": true
+        }
+       */
+    },
+    // rates[base][...RESULT]
+    rates:{
+
+    }
+};
+
+export const getSymbolListAsync = createAsyncThunk(
+  CURRENCY_API_SYMBOLS_GETLIST,
+  async () => {
+    return await (()=>{
+      return new Promise((resolve,reject)=>{
+        const resultItems = localStorage.getItem(SymbolsStorage);
+        if (resultItems === null) {
+          getSymbolList()
+            .then((list) => {
+              localStorage.setItem(SymbolsStorage, JSON.stringify(list));
+              resolve(list);
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        } else {
+          let _items =JSON.parse(resultItems);
+          resolve(_items)
+        }
+      })
+    })()
+  }
+);
+
+export const currencySlice = createSlice({
+  name: 'currency',
+  initialState,
+  // The `reducers` field lets us define reducers and generate associated actions
+  reducers: {
+    setStatus:(state,{payload:{param,status}})=>{
+      state.status={
+        ...status,
+        ...param
+      }
+    },
+    setSwaps:(state,{payload:{symbols,search,text}})=>{
+      state.text.from=text.to;
+      state.text.to=text.from;
+      state.search.from=search.to;
+      state.search.to=search.from;
+      state.fromSymbols=getToAutoComplete(symbols,search.from)
+      state.toSymbols=getToAutoComplete(symbols,search.to)
+      state.result.totalAmount=0;
+      state.search.amount=0;
+      state.result.convert.info.rate=0
+    },
+    setSearchFrom: (state, {payload:{ data,symbols,search}}) => {
+      let from =null;
+      state.text.from=data
+      Object.keys(symbols).filter(x=>{
+        if(symbols[x]===data){
+          from=x
+        }
+      })
+      state.search.from=from;
+      state.fromSymbols=getToAutoComplete(symbols,search.to)
+      state.toSymbols=getToAutoComplete(symbols,from)
+    },
+    setSearchTo: (state, {payload:{ data,symbols,search}}) => {
+      let to=null
+      state.text.to=data
+      Object.keys(symbols).filter(x=>{
+        if(symbols[x]===data){
+          to=x
+        }
+      })
+      state.search.to=to;
+      state.fromSymbols=getToAutoComplete(symbols,to)
+      state.toSymbols=getToAutoComplete(symbols,search.from)
+    },
+    setAmount: (state, {
+      payload:{
+        amount,
+        result
+      }
+      
+    }) => {
+      let totalAmount=parseFloat((result.convert.info.rate || 0)* (amount || 0));
+      state.result.totalAmount =totalAmount?totalAmount.toFixed(2):0;
+    },
+    setSearchDate: (state, action) => {
+      state.search.date = action.payload;
+    },
+    setSearchAmount: (state, action) => {
+      state.search.amount = action.payload;
+    }
+  },
+  // The `extraReducers` field lets the slice handle actions defined elsewhere,
+  // including actions generated by createAsyncThunk or in other slices.
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSymbolListAsync.pending, (state) => {
+        state.status.loading = false;
+      })
+      .addCase(getSymbolListAsync.fulfilled, (state, action) => {
+        state.status.loading = true;
+        state.symbols= action.payload? {...action.payload} : {};
+        state.fromSymbols=getToAutoComplete(state.symbols,null)
+        state.toSymbols=getToAutoComplete(state.symbols,null)
+      })
+      .addCase(getSymbolListAsync.rejected, (state) => {
+        state.status.loading = true;
+        state.symbols={};
+        state.fromSymbols=getToAutoComplete({},null)
+        state.toSymbols=getToAutoComplete({},null)
+      });
+  },
+});
+
+export const {
+   setSearchFrom,setSearchTo,setSearchDate,setSearchAmount,
+   setStatus,setSwaps,setAmount
+  } = currencySlice.actions;
+
+
+
+// export const setLoadingStatus = (payload) => (dispatch, getState) => {
+//   const status = selectStatus(getState());
+//   if (status.loading===true) {
+//     dispatch(setStatus(payload));
+//   }
+// };
+export const getListSymbolListAsync = () =>async (dispatch) => {
+    await dispatch(getSymbolListAsync());
+};
+
+
+export default currencySlice.reducer;
