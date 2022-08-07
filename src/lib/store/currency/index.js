@@ -38,81 +38,7 @@ const initialState = {
     search:{
       from:null,
       to:null,
-      amount:0,
-      // date:moment().format("YYYY-MM-DD"),
-      /**
-       * CONVERT
-       {
-          "date": "2018-02-22",
-          "historical": "",
-          "info": {
-            "rate": 148.972231,
-            "timestamp": 1519328414
-          },
-          "query": {
-            "amount": 25,
-            "from": "GBP",
-            "to": "JPY"
-          },
-          "result": 3724.305775,
-          "success": true
-        }
-       */
-    },
-    fluctuation:{
-      start_date:null,
-      end_date:null,
-      base:null,
-      //symbols AUD,USD..
-      symbols:""
-
-      /**
-       * result
-       *  
-       "JPY": {
-          "change": 0.0635,
-          "change_pct": 0.0483,
-          "end_rate": 131.651142,
-          "start_rate": 131.587611
-        },
-        "USD": {
-          "change": 0.0038,
-          "change_pct": 0.3078,
-          "end_rate": 1.232735,
-          "start_rate": 1.228952
-        }
-       */
-      /**
-       * Histories
-       {
-          "base": "EUR",
-          "end_date": "2012-05-03",
-          "rates": {
-            "2012-05-01": {
-              "AUD": 1.278047,
-              "CAD": 1.302303,
-              "USD": 1.322891
-            },
-            "2012-05-02": {
-              "AUD": 1.274202,
-              "CAD": 1.299083,
-              "USD": 1.315066
-            },
-            "2012-05-03": {
-              "AUD": 1.280135,
-              "CAD": 1.296868,
-              "USD": 1.314491
-            }
-          },
-          "start_date": "2012-05-01",
-          "success": true,
-          "timeseries": true
-        }
-       */
-    },
-    // rates[base][...RESULT]
-    rates:{
-
+      amount:0
     }
 };
 
@@ -235,7 +161,7 @@ export const currencySlice = createSlice({
       let totalAmount=parseFloat((result.convert.info.rate || 0)* (amount || 0));
       state.result.totalAmount =totalAmount?totalAmount.toFixed(5):0;
     },
-    getHistories:(state,payload)=>{
+    getHistories:(state,_)=>{
       state.result.histories=getHistoryList();
     }
   },
@@ -288,7 +214,7 @@ export const {
   } = currencySlice.actions;
 
 export const getListSymbolListAsync = () =>async (dispatch) => {
-    await dispatch(getSymbolListAsync());
+      await dispatch(getSymbolListAsync());
 };
 export const getConvertToMoneyActionAsync = (payload) =>async (dispatch) => {
     await dispatch(getConvertToMoneyAsync(payload));
