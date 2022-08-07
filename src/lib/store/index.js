@@ -7,6 +7,6 @@ import currencyReducer from './currency';
 export const store = configureStore({
   reducer: {
     currency: currencyReducer,
-  },
+  }
   // middleware: middleWares
 });
