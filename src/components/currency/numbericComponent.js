@@ -37,23 +37,7 @@ NumberFormatCustom.propTypes = {
 };
 
 export default function FormattedInputs({ value,disabled, label,onChange }) {
-  // const [values, setValues] = React.useState({
-  //   value: value,
-  // });
-  // useEffect(()=>{
-  //   setValues({
-  //     value: value,
-  //   })
-  // },[label,value])
-  // useEffect(()=>{
-  //   onChange(values.value);
-  // },[values])
-
   const handleChange = (event) => {
-    // setValues({
-    //   ...values,
-    //   value: event.target.value,
-    // });
     onChange(event.target.value);
   };
   return (
