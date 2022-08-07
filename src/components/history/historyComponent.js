@@ -9,12 +9,15 @@ import { Box, Grid } from "@mui/material";
 
 const columns = [
   {
+    field: 'id',
+    headerName: 'Id',
+    width: 90
+  },
+  {
     field: 'timestamps',
     headerName: 'Converting Date',
     width: 200,
-      
     valueGetter: (params) =>`${params.row.date || ''}`,
-
   },
   {
     field: 'amount',
@@ -37,8 +40,8 @@ export default function HistoryComponent({rows}) {
 
   return (
     <Grid container display={"flex"}>
-      <Grid item xs={0} sm={1} md={2}></Grid>
-      <Grid item xs={12} sm={11} md={9} maxHeight={"100%"}>
+      <Grid item xs={0} sm={1} md={2} lg={3}></Grid>
+      <Grid item xs={12} sm={10} md={9} lg={6} maxHeight={"100%"}>
         <Box sx={{height:400}}>
             <DataGrid
               disableExtendRowFullWidth
@@ -52,7 +55,7 @@ export default function HistoryComponent({rows}) {
             />
         </Box>
       </Grid>
-      <Grid item xs={0} sm={0} md={2}></Grid>
+      <Grid item xs={0} sm={0} md={2} lg={3}></Grid>
     </Grid>
   );
 }
