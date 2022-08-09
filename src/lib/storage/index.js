@@ -2,7 +2,8 @@
 import { HistoryStorageList } from "../constants"
 
 export const historyListAdd=(item)=>{
-    let histories= localStorage.getItem(HistoryStorageList);
+    const HistoryStorageListName=HistoryStorageList+new Date().toLocaleDateString().replace(/\.|[ ]/g,"")
+    let histories= localStorage.getItem(HistoryStorageListName);
     let list= null
     if(histories===null || histories==="null"){
         list=[];
@@ -16,11 +17,12 @@ export const historyListAdd=(item)=>{
         ...item,
         id:list.length+1
     });
-    localStorage.setItem(HistoryStorageList,JSON.stringify(list));
+    localStorage.setItem(HistoryStorageListName,JSON.stringify(list));
     return list.slice(0)
 }
 export const getHistoryList =()=>{
-    let histories= localStorage.getItem(HistoryStorageList);
+    const HistoryStorageListName=HistoryStorageList+new Date().toLocaleDateString().replace(/\.|[ ]/g,"")
+    let histories= localStorage.getItem(HistoryStorageListName);
     let list= null
     if(histories===null || histories==="null"){
         list=[];

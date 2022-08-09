@@ -1,8 +1,7 @@
-/* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { ConvertHistoryStorage, HistoryStorageList, SymbolsStorage } from '../../constants';
+import { ConvertHistoryStorage, SymbolsStorage } from '../../constants';
 import { CURRENCY_API_CONVERT, CURRENCY_API_SYMBOLS_GETLIST } from '../../constants/redux';
 import { getSymbolList} from '../../services/symbolsService'
 import { getApiMoneyConvert} from '../../services/convertService'
